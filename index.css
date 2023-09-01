@@ -1,0 +1,57 @@
+@import 'https://unpkg.com/open-props/easings.min.css';
+@import 'https://unpkg.com/open-props/animations.min.css';
+
+@layer demo {
+  h1 {
+    /* mark & name for view transition animation */
+    view-transition-name: replace-effect;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* customize how the OLD item transitions out */
+    ::view-transition-old(replace-effect) {
+      animation: var(--animation-fade-out), var(--animation-scale-down);
+    }
+
+    /* customize how the NEW item transitions in */
+    ::view-transition-new(replace-effect) {
+      z-index: 1;
+      animation: var(--animation-fade-out) reverse, var(--animation-slide-in-up);
+    }
+  }
+}
+
+@layer demo.support {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  html {
+    block-size: 100%;
+    color-scheme: dark light;
+    /* optimization: */
+    /* tell page you arent transitioning the whole page */
+    view-transition-name: none;
+  }
+
+  body {
+    min-block-size: 100%;
+    font-family: system-ui, sans-serif;
+
+    display: grid;
+    place-content: center;
+    place-items: center;
+  }
+
+  h1 {
+    font-size: 50vmin;
+    text-align: center;
+    /* remove and see why this is here! */
+    inline-size: 1em;
+  }
+
+  .no-support {
+    display: none;
+  }
+}
